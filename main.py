@@ -14,9 +14,9 @@ class Main:
         self.algorithm = self.get_algorithm()
 
     def run(self):
-        self.algorithm.search()
+        self.algorithm.search(self.maze)
         with open('output.txt', 'w') as file:
-            for line in self.algorithm.maze.data:
+            for line in self.maze.data:
                 file.write(''.join(line) + '\n')
         print('Steps to get to goal:     ' + str(self.algorithm.num_steps))
         print('Number of nodes expanded: ' + str(self.algorithm.num_expanded))
@@ -45,13 +45,13 @@ class Main:
         selection = int(input())
 
         if selection == 1:
-            return DepthFirst(self.maze)
+            return DepthFirst()
         elif selection == 2:
-            return BreadthFirst(self.maze)
+            return BreadthFirst()
         elif selection == 1:
-            return Greedy(self.maze)
+            return Greedy()
         elif selection == 1:
-            return AStar(self.maze)
+            return AStar()
 
 main = Main()
 main.run()
