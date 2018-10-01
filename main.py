@@ -48,9 +48,9 @@ class Main:
             return DepthFirst()
         elif selection == 2:
             return BreadthFirst()
-        elif selection == 1:
+        elif selection == 3:
             return Greedy()
-        elif selection == 1:
+        elif selection == 4:
             return AStar()
 
 main = Main()
