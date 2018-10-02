@@ -32,21 +32,24 @@ class Maze:
         pygame.init()
         self.display = pygame.display.set_mode((self.display_width, self.display_height))
 
-    def draw(self):
+    def draw(self, visited):
         self.display.fill((255, 255, 255))
         color = None
         for i, line in enumerate(self.data):
             for j, char in enumerate(line):
                 if char == ' ':
-                    continue
+                    if [i, j] in visited:
+                        color = (0, 0, 255)
+                    else:
+                        continue
                 elif char == '%':
                     color = (0, 0, 0)
                 elif char == 'P':
                     color = (255, 0, 0)
                 elif char == '*':
-                    color = (0, 255, 0)
+                    color = (255, 215, 0)
                 elif char == '.':
-                    color = (0, 0, 255)
+                    color = (0, 255, 0)
 
                 pygame.draw.rect(self.display, color,
                                  (i*self.node_size, j*self.node_size, self.node_size, self.node_size))

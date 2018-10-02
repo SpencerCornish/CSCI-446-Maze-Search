@@ -20,6 +20,5 @@ class Greedy(Algorithm):
                     break
             if not done:
                 pos = heapq.heappop(q)[1]
-                maze.data[pos[0]][pos[1]] = '.'
                 self.num_expanded += 1
-            maze.draw()
+            maze.draw(self.visited)
