@@ -1,4 +1,4 @@
-import pygame
+from tkinter import *
 import time
 
 
@@ -6,6 +6,7 @@ class Maze:
     data = []
     start = []
     end = []
+    squares = []
     width = 0
     height = 0
 
@@ -29,29 +30,47 @@ class Maze:
         self.node_size = int(self.display_height / self.width)
         self.display_width = int(self.node_size * self.width)
 
-        pygame.init()
-        self.display = pygame.display.set_mode((self.display_width, self.display_height))
+        self.tk = Tk()
+        self.canvas = Canvas(self.tk, width=self.display_width, height=self.display_height)
+        self.canvas.pack()
+        for i, line in enumerate(self.data):
+            self.squares.append([])
+            for j, char in enumerate(line):
+                color = None
+                if char == ' ':
+                    color = "white"
+                elif char == '%':
+                    color = "black"
+                elif char == 'P':
+                    color = "red"
+                elif char == '*':
+                    color = "yellow"
+                elif char == '.':
+                    color = "green"
+
+                self.squares[i].append(self.canvas.create_rectangle(i * self.node_size, j * self.node_size,
+                                             i * self.node_size + self.node_size,
+                                             j * self.node_size + self.node_size, fill=color))
+        self.tk.update()
 
     def draw(self, visited):
-        self.display.fill((255, 255, 255))
         color = None
         for i, line in enumerate(self.data):
             for j, char in enumerate(line):
                 if char == ' ':
                     if [i, j] in visited:
-                        color = (0, 0, 255)
+                        color = "blue"
                     else:
-                        continue
+                        color = "white"
                 elif char == '%':
-                    color = (0, 0, 0)
+                    color = "black"
                 elif char == 'P':
-                    color = (255, 0, 0)
+                    color = "red"
                 elif char == '*':
-                    color = (255, 215, 0)
+                    color = "yellow"
                 elif char == '.':
-                    color = (0, 255, 0)
+                    color = "green"
 
-                pygame.draw.rect(self.display, color,
-                                 (i*self.node_size, j*self.node_size, self.node_size, self.node_size))
-        pygame.display.update()
-        time.sleep(0.1)
+                if color != self.canvas.itemcget(self.squares[i][j], "fill"):
+                    self.canvas.itemconfig(self.squares[i][j], fill=color)
+        self.tk.update()
