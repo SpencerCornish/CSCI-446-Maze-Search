@@ -2,6 +2,7 @@ class Algorithm:
     num_steps = 0
     num_expanded = 0
     visited = []
+    path = []
 
     def search(self, maze):
         pass

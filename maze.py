@@ -11,8 +11,8 @@ class Maze:
     height = 0
 
     display = None
-    display_height = 800
-    display_width = None
+    display_width = 1200
+    display_height = None
     node_size = None
 
     def __init__(self, maze_file):
@@ -27,8 +27,8 @@ class Maze:
         self.width = len(self.data[0])
         self.height = len(self.data)
 
-        self.node_size = int(self.display_height / self.width)
-        self.display_width = int(self.node_size * self.width)
+        self.node_size = int(self.display_width / self.width)
+        self.display_height = int(self.node_size * self.height)
 
         self.tk = Tk()
         self.canvas = Canvas(self.tk, width=self.display_width, height=self.display_height)
@@ -48,17 +48,19 @@ class Maze:
                 elif char == '.':
                     color = "green"
 
-                self.squares[i].append(self.canvas.create_rectangle(i * self.node_size, j * self.node_size,
-                                             i * self.node_size + self.node_size,
-                                             j * self.node_size + self.node_size, fill=color))
+                self.squares[i].append(self.canvas.create_rectangle(j * self.node_size, i * self.node_size,
+                                             j * self.node_size + self.node_size,
+                                             i * self.node_size + self.node_size, fill=color))
         self.tk.update()
 
-    def draw(self, visited):
+    def draw(self, visited, path):
         color = None
         for i, line in enumerate(self.data):
             for j, char in enumerate(line):
                 if char == ' ':
-                    if [i, j] in visited:
+                    if [i, j] in path:
+                        color = "green"
+                    elif [i, j] in visited:
                         color = "blue"
                     else:
                         color = "white"
@@ -68,8 +70,6 @@ class Maze:
                     color = "red"
                 elif char == '*':
                     color = "yellow"
-                elif char == '.':
-                    color = "green"
 
                 if color != self.canvas.itemcget(self.squares[i][j], "fill"):
                     self.canvas.itemconfig(self.squares[i][j], fill=color)

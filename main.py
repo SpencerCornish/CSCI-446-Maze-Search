@@ -15,6 +15,10 @@ class Main:
 
     def run(self):
         self.algorithm.search(self.maze)
+        for node in self.algorithm.path:
+            if (self.maze.data[node[0]][node[1]] != 'P' and
+                    self.maze.data[node[0]][node[1]] != '*'):
+                self.maze.data[node[0]][node[1]] = '.'
         with open('output.txt', 'w') as file:
             for line in self.maze.data:
                 file.write(''.join(line) + '\n')
