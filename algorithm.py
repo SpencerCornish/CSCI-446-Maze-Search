@@ -1,31 +1,43 @@
-class Algorithm:
-    num_steps = 0
-    num_expanded = 0
-    visited = []
-    path = []
+from node import Node
 
+
+class Algorithm:
+    visited = []        # list of lists of x,y coords - not a node
+    path = []           # list of lists of x,y coords - not a node
+                        # update by calling update_path
+
+    # function to be overwritten
     def search(self, maze):
         pass
 
-    # get manhattan distance between two positions
-    def get_distance(self, pos1, pos2):
-        return abs(pos1[0]-pos2[0]) + abs(pos1[1]-pos2[1])
+    # get manhattan distance between two nodes
+    def get_distance(self, node1, node2):
+        return abs(node1.x-node2.x) + abs(node1.y-node2.y)
 
-    # returns true if position is in maze, not a '%' and not visited
-    def is_valid(self, maze, pos):
-        if pos[0] < 0 or pos[1] < 0 or pos[0] >= maze.height or pos[1] >= maze.width:
+    # returns true if node is in maze, not a '%', and not visited
+    def is_valid(self, maze, node):
+        if node.x < 0 or node.y < 0 or node.x >= maze.height or node.y >= maze.width:
             return False
-        if maze.data[pos[0]][pos[1]] == '%':
+        if maze.data[node.x][node.y] == '%':
             return False
-        if pos in self.visited:
+        if [node.x, node.y] in self.visited:
             return False
         return True
 
-    # return all valid neighbors around a position
-    def get_neighbors(self, maze, pos):
-        neighbors = [[pos[0]-1, pos[1]], [pos[0]+1, pos[1]], [pos[0], pos[1]-1], [pos[0], pos[1]+1]]
+    # return all valid nodes around a node
+    # set prev of each neighbor to node
+    def get_neighbors(self, maze, node):
+        neighbors = [Node(node.x - 1, node.y, node), Node(node.x + 1, node.y, node),
+                     Node(node.x, node.y - 1, node), Node(node.x, node.y + 1, node)]
         valid_neighbors = []
         for neighbor in neighbors:
             if self.is_valid(maze, neighbor):
-                valid_neighbors.append(neighbor)
+                valid_neighbors.append(Node(neighbor.x, neighbor.y, node))
         return valid_neighbors
+
+    # update path list by going backwards from node
+    def update_path(self, node):
+        self.path = []
+        while node.prev is not None:
+            self.path.append([node.prev.x, node.prev.y])
+            node = node.prev

@@ -1,11 +1,13 @@
 from tkinter import *
 import time
 
+from node import Node
+
 
 class Maze:
     data = []
-    start = []
-    end = []
+    start = None
+    end = None
     squares = []
     width = 0
     height = 0
@@ -21,9 +23,9 @@ class Maze:
                 line_list = list(line.strip('\n'))
                 self.data.append(list(line.strip('\n')))
                 if 'P' in line:
-                    self.start = [i, line_list.index('P')]
+                    self.start = Node(i, line_list.index('P'), None)
                 if '*' in line:
-                    self.end = [i, line_list.index('*')]
+                    self.end = Node(i, line_list.index('*'), None)
         self.width = len(self.data[0])
         self.height = len(self.data)
 

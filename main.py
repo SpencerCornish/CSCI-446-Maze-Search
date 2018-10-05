@@ -9,21 +9,31 @@ class Main:
     maze = None
     algorithm = None
 
-    def __init__(self):
+    def run(self):
+        # get maze and algorithm selection from user
         self.maze = self.get_maze()
         self.algorithm = self.get_algorithm()
 
-    def run(self):
+        # run selected algorithm on selected maze
         self.algorithm.search(self.maze)
-        for node in self.algorithm.path:
-            if (self.maze.data[node[0]][node[1]] != 'P' and
-                    self.maze.data[node[0]][node[1]] != '*'):
-                self.maze.data[node[0]][node[1]] = '.'
+
+        # write path to maze data as '.'
+        for pos in self.algorithm.path:
+            if (self.maze.data[pos[0]][pos[1]] != 'P' and
+                    self.maze.data[pos[0]][pos[1]] != '*'):
+                self.maze.data[pos[0]][pos[1]] = '.'
+
+        # write path to output.txt
         with open('output.txt', 'w') as file:
             for line in self.maze.data:
                 file.write(''.join(line) + '\n')
-        print('Steps to get to goal:     ' + str(self.algorithm.num_steps))
-        print('Number of nodes expanded: ' + str(self.algorithm.num_expanded))
+
+        # print number of nodes in path and number visited
+        print('Steps to get to goal:     ' + str(len(self.algorithm.path)))
+        print('Number of nodes expanded: ' + str(len(self.algorithm.visited)))
+
+        # wait until user presses a key to end
+        input("Press Enter to close...")
 
     @staticmethod
     def get_maze():
