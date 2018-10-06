@@ -1,26 +1,28 @@
 from algorithm import Algorithm
-from collections import deque
-
 
 class BreadthFirst(Algorithm):
+
     def search(self, maze):
-        start = maze.start
-        end = maze.end
-        queue = deque([start])
-        explored = []
+        current_node = maze.start
+        self.visited.append([current_node.x, current_node.y])
+        q = []  # the queue
+        done = False
 
-        while queue:
-            cur = queue.popleft()
-            self.num_steps += 1
-
-            if cur not in explored:
-                explored.append(cur)
-                self.num_expanded += 1
-
-                neighbors = self.get_neighbors(maze, cur)
-                for n in neighbors:
-                    if n not in explored:
-                        if n != end:
-                            queue.append(n)
-                        else:
-                            print("found end")
+        while not done:
+            # get all valid neighbors around current position
+            neighbors = self.get_neighbors(maze, current_node)
+            for node in neighbors:
+                # add neighbors to heap in format (distance_to_end, neighbor_node)
+                q.append(node)
+                self.visited.append([node.x, node.y])
+                # check for end
+                if maze.data[node.x][node.y] == '*':
+                    current_node = node
+                    print("Found finish!")
+                    done = True
+                    break
+            if not done:
+                # set current node to closest node to end in heap
+                current_node = q.pop(0)
+            self.update_path(current_node)
+            maze.draw(self.visited, self.path)

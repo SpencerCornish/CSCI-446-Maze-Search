@@ -5,9 +5,9 @@ import heapq
 class Greedy(Algorithm):
 
     def search(self, maze):
+        q = []  # the heap
         current_node = maze.start
         self.visited.append([current_node.x, current_node.y])
-        q = []  # the heap
         done = False
 
         while not done:
@@ -19,10 +19,12 @@ class Greedy(Algorithm):
                 self.visited.append([node.x, node.y])
                 # check for end
                 if maze.data[node.x][node.y] == '*':
+                    current_node = node
                     print("Found finish!")
                     done = True
                     break
-            # set current node to closest node to end in heap
-            current_node = heapq.heappop(q)[1]
+            if not done:
+                # set current node to closest node to end in heap
+                current_node = heapq.heappop(q)[1]
             self.update_path(current_node)
             maze.draw(self.visited, self.path)
