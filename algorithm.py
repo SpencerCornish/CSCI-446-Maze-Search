@@ -4,7 +4,7 @@ from node import Node
 class Algorithm:
     visited = []        # list of lists of x,y coords - not a node
     path = []           # list of lists of x,y coords - not a node
-                        # update by calling update_path
+    # update by calling update_path
 
     # function to be overwritten
     def search(self, maze):
