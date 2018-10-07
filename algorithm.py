@@ -32,12 +32,12 @@ class Algorithm:
         valid_neighbors = []
         for neighbor in neighbors:
             if self.is_valid(maze, neighbor):
-                valid_neighbors.append(Node(neighbor.x, neighbor.y, node))
+                valid_neighbors.append(neighbor)
         return valid_neighbors
 
     # update path list by going backwards from node
     def update_path(self, node):
-        self.path = []
+        self.path = [[node.x, node.y]]
         while node.prev is not None:
             self.path.append([node.prev.x, node.prev.y])
             node = node.prev
