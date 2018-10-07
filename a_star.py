@@ -32,4 +32,11 @@ class AStar(Algorithm):
             self.visited.append([current_node.x, current_node.y])
 
     def get_heuristic(self, maze, current_node):
-        return self.get_distance(maze.start, current_node) + self.get_distance(current_node, maze.end)
+        return len(self.path) + self.get_distance(current_node, maze.end)
+
+    def rebuild(self, cameFrom, current):
+        total_path = current
+        while current in cameFrom.Keys:
+            current = cameFrom[current]
+            total_path.append(current)
+        return total_path
