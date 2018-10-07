@@ -32,9 +32,21 @@ class Maze:
         self.node_size = int(self.display_width / self.width)
         self.display_height = int(self.node_size * self.height)
 
+        print("starting tk")
         self.tk = Tk()
-        self.canvas = Canvas(self.tk, width=self.display_width, height=self.display_height)
+        print("started tk")
+
+        print("making canvas tk")
+
+        self.canvas = Canvas(
+            self.tk, width=self.display_width, height=self.display_height)
+
+        print("made canvas tk")
+        print("packng tk")
+
         self.canvas.pack()
+        print("packed tk")
+
         for i, line in enumerate(self.data):
             self.squares.append([])
             for j, char in enumerate(line):
@@ -51,8 +63,8 @@ class Maze:
                     color = "green"
 
                 self.squares[i].append(self.canvas.create_rectangle(j * self.node_size, i * self.node_size,
-                                             j * self.node_size + self.node_size,
-                                             i * self.node_size + self.node_size, fill=color))
+                                                                    j * self.node_size + self.node_size,
+                                                                    i * self.node_size + self.node_size, fill=color))
         self.tk.update()
 
     def draw(self, visited, path):
