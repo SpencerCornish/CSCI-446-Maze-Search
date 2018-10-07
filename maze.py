@@ -32,20 +32,10 @@ class Maze:
         self.node_size = int(self.display_width / self.width)
         self.display_height = int(self.node_size * self.height)
 
-        print("starting tk")
         self.tk = Tk()
-        print("started tk")
-
-        print("making canvas tk")
-
         self.canvas = Canvas(
             self.tk, width=self.display_width, height=self.display_height)
-
-        print("made canvas tk")
-        print("packng tk")
-
         self.canvas.pack()
-        print("packed tk")
 
         for i, line in enumerate(self.data):
             self.squares.append([])
