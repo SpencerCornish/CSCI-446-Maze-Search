@@ -10,6 +10,12 @@ class DepthFirst(Algorithm):
         stack.append(current_node)
 
         while len(stack) > 0:
+            # set current node to next node in stack
+            current_node = stack.pop()
+            # update path to current_node and draw
+            self.update_path(current_node)
+            maze.draw(self.visited, self.path)
+
             # get all valid neighbors around current position
             neighbors = self.get_neighbors(maze, current_node)
             for node in neighbors:
@@ -21,11 +27,3 @@ class DepthFirst(Algorithm):
                     self.update_path(node)
                     maze.draw(self.visited, self.path)
                     return
-
-            # set current node to next node in stack
-            current_node = stack.pop()
-            self.update_path(current_node)
-            maze.draw(self.visited, self.path)
-
-
-
