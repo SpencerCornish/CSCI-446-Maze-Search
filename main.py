@@ -67,5 +67,6 @@ class Main:
         elif selection == 4:
             return AStar()
 
+
 main = Main()
 main.run()
